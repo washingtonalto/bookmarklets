@@ -142,6 +142,10 @@ function formatHTMLTableRows() {
   return strOutput;
 }
 
+// alert user to wait till tab is open
+alert("WARNING: the process might take minutes. Please click ok button and wait "+
+      "for tab with link information to open!");
+
 var pageH1 = "WLA Links Checker v01"; // H1 Header
 var pageNotes =
   "Only internal links have HTTP Status. It's not possible to obtain" +
