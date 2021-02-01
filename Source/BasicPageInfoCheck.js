@@ -138,11 +138,11 @@ function getallH1toH6(){
   return arrallH;
 }
 
-var pageH1 = "WLA Basic Page Info Checker v01"; // H1 Header
-var pageNotes = "";                  // Important notes to display
-var objCollection = "";              // define the DOM object as HTML Collections
-var pageHost = location.host;        // define the host of the page
-var strHTMLlines = "";               // define the HTML line string
+let pageH1 = "WLA Basic Page Info Checker v01"; // H1 Header
+let pageNotes = "";                  // Important notes to display
+let objCollection = "";              // define the DOM object as HTML Collections
+let pageHost = location.host;        // define the host of the page
+let strHTMLlines = "";               // define the HTML line string
 strHTMLlines += setTableStyle();
 strHTMLlines += formatPageHeaders(pageH1, pageNotes);
 
@@ -210,6 +210,6 @@ strHTMLlines +=
   "<BR><BR><DIV style='text-align: center;'><CITE>Coded by Washington Alto</CITE></DIV>";
 
 // Open a new tab or window in browser and display the concatenated strings strHTMLlines
-var myWin = window.open();
+let myWin = window.open();
 myWin.document.writeln(strHTMLlines);
 myWin.document.close();

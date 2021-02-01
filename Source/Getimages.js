@@ -1,45 +1,13 @@
-/*
-function returnHTTPStatus(url,strInternalExternal)
-	Returns HTTP Status and Status text only for "Internal" links only
-	Note that returnHTTPStatus(url,strInternalExternal)[0] returns status code
-	Note that returnHTTPStatus(url,strInternalExternal)[1] returns status text
-*/
-function returnHTTPStatus(url, strInternalExternal) {
-  let xmlHttp = new XMLHttpRequest();
-  let statusCode = "", statusText = "";
-  xmlHttp.open("HEAD", url, false);
-  if (strInternalExternal == "Internal") {
-    try {
-      xmlHttp.send();
-    } catch (e) {
-      console.log("Error: " + e);
-    }
-    xmlHttp.onload = function() {
-      statusText = xmlHttp.statusText;
-      statusCode = xmlHttp.status;
-    }
-    xmlHttp.onload();
-  } else {
-    statusText = "External link status unknown";
-    statusCode = "";
+function listAttributes(arr) {
+  let strOutput = "<DIV>"; 
+  strOutput += "<UL>";
+  for (let i=0;i < arr.length;i++) {
+        strOutput += "<LI><SPAN class='propertyname'>" + arr[i].name + "</SPAN>: " + arr[i].value +"</LI>";
   }
-  return [statusCode, statusText];
-}
-
-
-/*
-function checkInternalExternalLink(linkHost,pageHost)
-	Returns "Internal" if linkHost == pageHost else returns "External"
-*/
-function checkInternalExternalLink(linkHost, pageHost) {
-  let strOutput;
-  if (linkHost == pageHost) {
-    strOutput = "Internal";
-  } else {
-    strOutput = "External";
-  }
+  strOutput += "</UL></DIV>";
   return strOutput;
 }
+
 
 /*
 function isValidHttpUrl(strTest)
@@ -58,19 +26,31 @@ function isValidHttpUrl(strTest) {
 }
 
 /*
+function isValidImage(strTest)
+	Check if string strTest is a valid image string and if it is, return true otherwise, return false
+*/
+function isValidImage(strTest) {
+  let re = new RegExp("(?:.svg|.jpg|.jpeg|.gif|.png)$");
+
+  return re.test(strTest);
+}
+
+/*
 function formatHTMLcellvalues(strCellinput)
 	Format HTML table cell values so that string strCellinput is empty string when value is null and string is trimmed
 	Also, if strCellinput is valid URL, then <A> tag is appended
 */
 function formatHTMLcellvalues(strCellinput) {
   let strOutput;
-  if (isValidHttpUrl(strCellinput)) {
+  if (isValidHttpUrl(strCellinput) && isValidImage(strCellinput)) {
     strOutput =
       "<A HREF='" +
       strCellinput +
-      "' target='_blank'>" +
-      decodeURIComponent(strCellinput) +
-      "</A>";
+      "' target='blank'>" +
+      strCellinput +
+      "</A><BR><IMG = SRC='" + strCellinput + "'>";
+  } else if (typeof(strCellinput)==="object") {
+    strOutput = listAttributes(strCellinput);
   } else {
     strOutput =
       strCellinput == null || String(strCellinput).trim().length == 0
@@ -89,6 +69,8 @@ function setTableStyle() {
   strOutput +=
     "table,th,td { border:1px solid #9E9E9E; border-collapse: collapse  }";
   strOutput += "th { background: #FFC107; }";
+  strOutput += "img { height:100px; max-width:90% }";
+  strOutput += ".propertyname { font-weight:bold; font-color:blue; }";
   strOutput += "</STYLE>";
   return strOutput;
 }
@@ -142,42 +124,30 @@ function formatHTMLTableRows() {
   return strOutput;
 }
 
-// alert user to wait till tab is open
-alert("WARNING: the process might take minutes. Please click ok button and wait "+
-      "for tab with link information to open!");
-
-let pageH1 = "WLA Links Checker v01"; // H1 Header
-let pageNotes =
-  "Only internal links have HTTP Status. It's not possible to obtain" +
-  " HTTP status for external links"; // Important notes to display
-let objCollection = document.links;  // define the DOM object as HTML Collections
-let pageHost = location.host;        // define the host of the page
-let strHTMLlines = "";               // define the HTML line string
+let pageH1 = "WLA Images Checker v01"; // H1 Header
+let pageNotes = ""; // Important notes to display
+let objCollection = document.images; // define the DOM object as HTML Collections
+let pageHost = location.host; // define the host of the page
+let strHTMLlines = ""; // define the HTML line string
 strHTMLlines += setTableStyle();
 strHTMLlines += formatPageHeaders(pageH1, pageNotes);
 strHTMLlines += formatHTMLTableHeaders(
   "No",
-  "Link URL",
-  "Link Text",
-  "Link Protocol",
-  "Internal/External",
-  "Status Code",
-  "Status Text"
+  "Image URL",
+  "Image Height",
+  "Image Width",
+  "Image Alt Text",
+  "Image Attributes"
 );
 for (let i = 0; i < objCollection.length; i++) {
   let objItem = objCollection[i]; // get the object HTML collection item
-  let objInternalExternalLink = checkInternalExternalLink(
-    objItem["host"],
-    pageHost
-  );
   strHTMLlines += formatHTMLTableRows(
     i + 1,
-    objItem["href"],
-    objItem["innerText"],
-    objItem["protocol"].replace(":", ""),
-    objInternalExternalLink,
-    returnHTTPStatus(objItem["href"], objInternalExternalLink)[0],
-    returnHTTPStatus(objItem["href"], objInternalExternalLink)[1]
+    objItem["src"],
+    objItem["height"],
+    objItem["width"],
+    objItem["alt"],
+    objItem["attributes"]
   );
 }
 strHTMLlines += "</TABLE>";

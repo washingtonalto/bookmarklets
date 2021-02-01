@@ -33,7 +33,7 @@ function formatPageHeaders(strHeader,strNotes = "") {
 function recursiveObjformat(obj) {
   let strOutput = "<DIV class='outputarea'>"; 
   strOutput += "<UL>";
-  for (var property in obj) {
+  for (let property in obj) {
     if (obj.hasOwnProperty(property) && obj[property] == null) {
         strOutput += "<LI><SPAN class='propertyname'>" + property + "</SPAN>: (null)</LI>";
     } else if (
@@ -72,10 +72,10 @@ function recursiveObjformat(obj) {
   return strOutput;
 }
 
-var pageH1 = "WLA Tealium Checker v01";                       // H1 Header
-var pageNotes = "";                 // Important notes to display
-var pageHost = location.host;       // define the host of the page
-var strHTMLlines = "";              // define the HTML line string
+let pageH1 = "WLA Tealium Checker v01";                       // H1 Header
+let pageNotes = "";                 // Important notes to display
+let pageHost = location.host;       // define the host of the page
+let strHTMLlines = "";              // define the HTML line string
 strHTMLlines += setPageStyle();
 strHTMLlines += formatPageHeaders(pageH1,pageNotes);
 
@@ -97,6 +97,6 @@ strHTMLlines += recursiveObjformat(utag.sender);
 strHTMLlines += "<BR><BR><DIV style='text-align: center;'><CITE>Coded by Washington Alto</CITE></DIV>";
 
 // Open a new tab or window in browser and display the concatenated strings strHTMLlines
-var myWin = window.open();
+let myWin = window.open();
 myWin.document.writeln(strHTMLlines);
 myWin.document.close();
