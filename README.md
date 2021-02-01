@@ -18,6 +18,7 @@ chrome://bookmarks/
 https://edition.cnn.com/
 ```
 2. Click the bookmarklet and see results on a separate tab.
+3. If the result does not appear, you can refresh the page before clicking the bookmarklet again.
 
 ## Code
 
