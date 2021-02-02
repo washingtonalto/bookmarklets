@@ -6,7 +6,8 @@ function returnHTTPStatus(url,strInternalExternal)
 */
 function returnHTTPStatus(url, strInternalExternal) {
   let xmlHttp = new XMLHttpRequest();
-  let statusCode = "", statusText = "";
+  let statusCode = "",
+    statusText = "";
   xmlHttp.open("HEAD", url, false);
   if (strInternalExternal == "Internal") {
     try {
@@ -14,10 +15,10 @@ function returnHTTPStatus(url, strInternalExternal) {
     } catch (e) {
       console.log("Error: " + e);
     }
-    xmlHttp.onload = function() {
+    xmlHttp.onload = function () {
       statusText = xmlHttp.statusText;
       statusCode = xmlHttp.status;
-    }
+    };
     xmlHttp.onload();
   } else {
     statusText = "External link status unknown";
@@ -25,7 +26,6 @@ function returnHTTPStatus(url, strInternalExternal) {
   }
   return [statusCode, statusText];
 }
-
 
 /*
 function checkInternalExternalLink(linkHost,pageHost)
@@ -142,49 +142,53 @@ function formatHTMLTableRows() {
   return strOutput;
 }
 
-// alert user to wait till tab is open
-alert("WARNING: the process might take minutes. Please click ok button and wait "+
-      "for tab with link information to open!");
-
-let pageH1 = "WLA Links Checker v01"; // H1 Header
-let pageNotes =
-  "Only internal links have HTTP Status. It's not possible to obtain" +
-  " HTTP status for external links"; // Important notes to display
-let objCollection = document.links;  // define the DOM object as HTML Collections
-let pageHost = location.host;        // define the host of the page
-let strHTMLlines = "";               // define the HTML line string
-strHTMLlines += setTableStyle();
-strHTMLlines += formatPageHeaders(pageH1, pageNotes);
-strHTMLlines += formatHTMLTableHeaders(
-  "No",
-  "Link URL",
-  "Link Text",
-  "Link Protocol",
-  "Internal/External",
-  "Status Code",
-  "Status Text"
-);
-for (let i = 0; i < objCollection.length; i++) {
-  let objItem = objCollection[i]; // get the object HTML collection item
-  let objInternalExternalLink = checkInternalExternalLink(
-    objItem["host"],
-    pageHost
+(function () {
+  // alert user to wait till tab is open
+  alert(
+    "WARNING: the process might take minutes. Please click ok button and wait " +
+      "for tab with link information to open!"
   );
-  strHTMLlines += formatHTMLTableRows(
-    i + 1,
-    objItem["href"],
-    objItem["innerText"],
-    objItem["protocol"].replace(":", ""),
-    objInternalExternalLink,
-    returnHTTPStatus(objItem["href"], objInternalExternalLink)[0],
-    returnHTTPStatus(objItem["href"], objInternalExternalLink)[1]
-  );
-}
-strHTMLlines += "</TABLE>";
-strHTMLlines +=
-  "<BR><BR><DIV style='text-align: center;'><CITE>Coded by Washington Alto</CITE></DIV>";
 
-// Open a new tab or window in browser and display the concatenated strings strHTMLlines
-let myWin = window.open();
-myWin.document.writeln(strHTMLlines);
-myWin.document.close();
+  let pageH1 = "WLA Links Checker v01"; // H1 Header
+  let pageNotes =
+    "Only internal links have HTTP Status. It's not possible to obtain" +
+    " HTTP status for external links"; // Important notes to display
+  let objCollection = document.links; // define the DOM object as HTML Collections
+  let pageHost = location.host; // define the host of the page
+  let strHTMLlines = ""; // define the HTML line string
+  strHTMLlines += setTableStyle();
+  strHTMLlines += formatPageHeaders(pageH1, pageNotes);
+  strHTMLlines += formatHTMLTableHeaders(
+    "No",
+    "Link URL",
+    "Link Text",
+    "Link Protocol",
+    "Internal/External",
+    "Status Code",
+    "Status Text"
+  );
+  for (let i = 0; i < objCollection.length; i++) {
+    let objItem = objCollection[i]; // get the object HTML collection item
+    let objInternalExternalLink = checkInternalExternalLink(
+      objItem["host"],
+      pageHost
+    );
+    strHTMLlines += formatHTMLTableRows(
+      i + 1,
+      objItem["href"],
+      objItem["innerText"],
+      objItem["protocol"].replace(":", ""),
+      objInternalExternalLink,
+      returnHTTPStatus(objItem["href"], objInternalExternalLink)[0],
+      returnHTTPStatus(objItem["href"], objInternalExternalLink)[1]
+    );
+  }
+  strHTMLlines += "</TABLE>";
+  strHTMLlines +=
+    "<BR><BR><DIV style='text-align: center;'><CITE>Coded by Washington Alto</CITE></DIV>";
+
+  // Open a new tab or window in browser and display the concatenated strings strHTMLlines
+  let myWin = window.open();
+  myWin.document.writeln(strHTMLlines);
+  myWin.document.close();
+})();

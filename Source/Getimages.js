@@ -1,13 +1,17 @@
 function listAttributes(arr) {
-  let strOutput = "<DIV>"; 
+  let strOutput = "<DIV>";
   strOutput += "<UL>";
-  for (let i=0;i < arr.length;i++) {
-        strOutput += "<LI><SPAN class='propertyname'>" + arr[i].name + "</SPAN>: " + arr[i].value +"</LI>";
+  for (let i = 0; i < arr.length; i++) {
+    strOutput +=
+      "<LI><SPAN class='propertyname'>" +
+      arr[i].name +
+      "</SPAN>: " +
+      arr[i].value +
+      "</LI>";
   }
   strOutput += "</UL></DIV>";
   return strOutput;
 }
-
 
 /*
 function isValidHttpUrl(strTest)
@@ -48,8 +52,10 @@ function formatHTMLcellvalues(strCellinput) {
       strCellinput +
       "' target='blank'>" +
       strCellinput +
-      "</A><BR><IMG = SRC='" + strCellinput + "'>";
-  } else if (typeof(strCellinput)==="object") {
+      "</A><BR><IMG = SRC='" +
+      strCellinput +
+      "'>";
+  } else if (typeof strCellinput === "object") {
     strOutput = listAttributes(strCellinput);
   } else {
     strOutput =
@@ -124,37 +130,39 @@ function formatHTMLTableRows() {
   return strOutput;
 }
 
-let pageH1 = "WLA Images Checker v01"; // H1 Header
-let pageNotes = ""; // Important notes to display
-let objCollection = document.images; // define the DOM object as HTML Collections
-let pageHost = location.host; // define the host of the page
-let strHTMLlines = ""; // define the HTML line string
-strHTMLlines += setTableStyle();
-strHTMLlines += formatPageHeaders(pageH1, pageNotes);
-strHTMLlines += formatHTMLTableHeaders(
-  "No",
-  "Image URL",
-  "Image Height",
-  "Image Width",
-  "Image Alt Text",
-  "Image Attributes"
-);
-for (let i = 0; i < objCollection.length; i++) {
-  let objItem = objCollection[i]; // get the object HTML collection item
-  strHTMLlines += formatHTMLTableRows(
-    i + 1,
-    objItem["src"],
-    objItem["height"],
-    objItem["width"],
-    objItem["alt"],
-    objItem["attributes"]
+(function () {
+  let pageH1 = "WLA Images Checker v01"; // H1 Header
+  let pageNotes = ""; // Important notes to display
+  let objCollection = document.images; // define the DOM object as HTML Collections
+  let pageHost = location.host; // define the host of the page
+  let strHTMLlines = ""; // define the HTML line string
+  strHTMLlines += setTableStyle();
+  strHTMLlines += formatPageHeaders(pageH1, pageNotes);
+  strHTMLlines += formatHTMLTableHeaders(
+    "No",
+    "Image URL",
+    "Image Height",
+    "Image Width",
+    "Image Alt Text",
+    "Image Attributes"
   );
-}
-strHTMLlines += "</TABLE>";
-strHTMLlines +=
-  "<BR><BR><DIV style='text-align: center;'><CITE>Coded by Washington Alto</CITE></DIV>";
+  for (let i = 0; i < objCollection.length; i++) {
+    let objItem = objCollection[i]; // get the object HTML collection item
+    strHTMLlines += formatHTMLTableRows(
+      i + 1,
+      objItem["src"],
+      objItem["height"],
+      objItem["width"],
+      objItem["alt"],
+      objItem["attributes"]
+    );
+  }
+  strHTMLlines += "</TABLE>";
+  strHTMLlines +=
+    "<BR><BR><DIV style='text-align: center;'><CITE>Coded by Washington Alto</CITE></DIV>";
 
-// Open a new tab or window in browser and display the concatenated strings strHTMLlines
-let myWin = window.open();
-myWin.document.writeln(strHTMLlines);
-myWin.document.close();
+  // Open a new tab or window in browser and display the concatenated strings strHTMLlines
+  let myWin = window.open();
+  myWin.document.writeln(strHTMLlines);
+  myWin.document.close();
+})();

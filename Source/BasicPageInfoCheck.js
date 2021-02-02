@@ -11,13 +11,12 @@ function returnHTTPAllResponseHeaders(url) {
   } catch (e) {
     console.log("Error: " + e);
   }
-  xmlHttp.onload = function() {
+  xmlHttp.onload = function () {
     strOutput = xmlHttp.getAllResponseHeaders();
-  }
+  };
   xmlHttp.onload();
   return strOutput;
 }
-
 
 /*
 function isValidHttpUrl(strTest)
@@ -126,7 +125,7 @@ function formatHTMLTableRows() {
 function getallH1toH6()
   Get concatenates all converted H1 to H6 HTML Collections into one array for easier processing
 */
-function getallH1toH6(){
+function getallH1toH6() {
   let arrallH = new Array();
   let arrH1 = Array.from(document.getElementsByTagName("H1"));
   let arrH2 = Array.from(document.getElementsByTagName("H2"));
@@ -134,82 +133,87 @@ function getallH1toH6(){
   let arrH4 = Array.from(document.getElementsByTagName("H4"));
   let arrH5 = Array.from(document.getElementsByTagName("H5"));
   let arrH6 = Array.from(document.getElementsByTagName("H6"));
-  arrallH = arrH1.concat(arrH2).concat(arrH3).concat(arrH4).concat(arrH5).concat(arrH6);
+  arrallH = arrH1
+    .concat(arrH2)
+    .concat(arrH3)
+    .concat(arrH4)
+    .concat(arrH5)
+    .concat(arrH6);
   return arrallH;
 }
 
-let pageH1 = "WLA Basic Page Info Checker v01"; // H1 Header
-let pageNotes = "";                  // Important notes to display
-let objCollection = "";              // define the DOM object as HTML Collections
-let pageHost = location.host;        // define the host of the page
-let strHTMLlines = "";               // define the HTML line string
-strHTMLlines += setTableStyle();
-strHTMLlines += formatPageHeaders(pageH1, pageNotes);
+(function () {
+  let pageH1 = "WLA Basic Page Info Checker v01"; // H1 Header
+  let pageNotes = ""; // Important notes to display
+  let objCollection = ""; // define the DOM object as HTML Collections
+  let pageHost = location.host; // define the host of the page
+  let strHTMLlines = ""; // define the HTML line string
+  strHTMLlines += setTableStyle();
+  strHTMLlines += formatPageHeaders(pageH1, pageNotes);
 
-// ----- H1 to H6 Tag Information -----
-objCollection = getallH1toH6();
-strHTMLlines += "<H1>H1 to H6 Tag</H1>";
-strHTMLlines += formatHTMLTableHeaders(
-  "No",
-  "H1 to H6 Tag",
-  "H1 to H6 Tag Text",
-  "H1 to H6 Tag Text Length",
-);
-for (let i = 0; i < objCollection.length; i++) {
-  let objItem = objCollection[i]; // get the object HTML collection item
-  strHTMLlines += formatHTMLTableRows(
-    i+1,
-    objItem["tagName"],
-    objItem["innerText"].trim(),
-    objItem["innerText"].trim().length
+  // ----- H1 to H6 Tag Information -----
+  objCollection = getallH1toH6();
+  strHTMLlines += "<H1>H1 to H6 Tag</H1>";
+  strHTMLlines += formatHTMLTableHeaders(
+    "No",
+    "H1 to H6 Tag",
+    "H1 to H6 Tag Text",
+    "H1 to H6 Tag Text Length"
   );
-}
-strHTMLlines += "</TABLE>";
-
-// ----- Meta Tag Information -----
-objCollection = document.querySelectorAll("meta[name]");
-strHTMLlines += "<H1>Meta Name Tag</H1>";
-strHTMLlines += formatHTMLTableHeaders(
-  "No",
-  "Name",
-  "Content",
-  "Content Length"
-);
-for (let i = 0; i < objCollection.length; i++) {
-  let objItem = objCollection[i]; // get the object HTML collection item
-  if (objItem && objItem.attributes.name != undefined && objItem.attributes.content != undefined) {
+  for (let i = 0; i < objCollection.length; i++) {
+    let objItem = objCollection[i]; // get the object HTML collection item
     strHTMLlines += formatHTMLTableRows(
-      i+1,
-      objItem.attributes["name"].value,
-      objItem.attributes["content"].value,
-      String(objItem.attributes["content"].value).trim().length
+      i + 1,
+      objItem["tagName"],
+      objItem["innerText"].trim(),
+      objItem["innerText"].trim().length
     );
   }
-}
-strHTMLlines += "</TABLE>";
+  strHTMLlines += "</TABLE>";
 
-// ----- HTTP Request Response Information -----
-let responsetext = returnHTTPAllResponseHeaders(location.href);
-objCollection = responsetext.split("\n");
-objCollection.pop(); // removes last line which is always a blank because of the split function
-strHTMLlines += "<H1>HTTP Response Headers Information</H1>";
-strHTMLlines += formatHTMLTableHeaders(
-  "No",
-  "Item-Pair"
-);
-for (let i = 0; i < objCollection.length; i++) {
-  let objItem = objCollection[i]; // get the object HTML collection item
-  strHTMLlines += formatHTMLTableRows(
-    i+1,
-    objItem
+  // ----- Meta Tag Information -----
+  objCollection = document.querySelectorAll("meta[name]");
+  strHTMLlines += "<H1>Meta Name Tag</H1>";
+  strHTMLlines += formatHTMLTableHeaders(
+    "No",
+    "Name",
+    "Content",
+    "Content Length"
   );
-}
-strHTMLlines += "</TABLE>";
+  for (let i = 0; i < objCollection.length; i++) {
+    let objItem = objCollection[i]; // get the object HTML collection item
+    if (
+      objItem &&
+      objItem.attributes.name != undefined &&
+      objItem.attributes.content != undefined
+    ) {
+      strHTMLlines += formatHTMLTableRows(
+        i + 1,
+        objItem.attributes["name"].value,
+        objItem.attributes["content"].value,
+        String(objItem.attributes["content"].value).trim().length
+      );
+    }
+  }
+  strHTMLlines += "</TABLE>";
 
-strHTMLlines +=
-  "<BR><BR><DIV style='text-align: center;'><CITE>Coded by Washington Alto</CITE></DIV>";
+  // ----- HTTP Request Response Information -----
+  let responsetext = returnHTTPAllResponseHeaders(location.href);
+  objCollection = responsetext.split("\n");
+  objCollection.pop(); // removes last line which is always a blank because of the split function
+  strHTMLlines += "<H1>HTTP Response Headers Information</H1>";
+  strHTMLlines += formatHTMLTableHeaders("No", "Item-Pair");
+  for (let i = 0; i < objCollection.length; i++) {
+    let objItem = objCollection[i]; // get the object HTML collection item
+    strHTMLlines += formatHTMLTableRows(i + 1, objItem);
+  }
+  strHTMLlines += "</TABLE>";
 
-// Open a new tab or window in browser and display the concatenated strings strHTMLlines
-let myWin = window.open();
-myWin.document.writeln(strHTMLlines);
-myWin.document.close();
+  strHTMLlines +=
+    "<BR><BR><DIV style='text-align: center;'><CITE>Coded by Washington Alto</CITE></DIV>";
+
+  // Open a new tab or window in browser and display the concatenated strings strHTMLlines
+  let myWin = window.open();
+  myWin.document.writeln(strHTMLlines);
+  myWin.document.close();
+})();
