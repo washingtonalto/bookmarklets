@@ -1,8 +1,26 @@
 /*
+function listAttributes(arr)
+	Lists down attributes for the attributes property
+*/
+function listAttributes(arr) {
+  let strOutput = "<DIV>";
+  strOutput += "<UL>";
+  for (let i = 0; i < arr.length; i++) {
+    strOutput +=
+      "<LI><SPAN class='propertyname'>" +
+      arr[i].name +
+      "</SPAN>: " +
+      arr[i].value +
+      "</LI>";
+  }
+  strOutput += "</UL></DIV>";
+  return strOutput;
+}
+
+/*
 function returnHTTPStatus(url,strInternalExternal)
 	Returns HTTP Status and Status text only for "Internal" links only
-	Note that returnHTTPStatus(url,strInternalExternal)[0] returns status code
-	Note that returnHTTPStatus(url,strInternalExternal)[1] returns status text
+	Note that returnHTTPStatus(url,strInternalExternal) returns <status code>: <status text>
 */
 function returnHTTPStatus(url, strInternalExternal) {
   let xmlHttp = new XMLHttpRequest();
@@ -22,9 +40,9 @@ function returnHTTPStatus(url, strInternalExternal) {
     xmlHttp.onload();
   } else {
     statusText = "External link status unknown";
-    statusCode = "";
+    statusCode = "0";
   }
-  return [statusCode, statusText];
+  return statusCode + ': ' + statusText;
 }
 
 /*
@@ -71,6 +89,8 @@ function formatHTMLcellvalues(strCellinput) {
       "' target='_blank'>" +
       decodeURIComponent(strCellinput) +
       "</A>";
+  } else if (typeof strCellinput === "object") {
+    strOutput = listAttributes(strCellinput);
   } else {
     strOutput =
       strCellinput == null || String(strCellinput).trim().length == 0
@@ -89,6 +109,7 @@ function setTableStyle() {
   strOutput +=
     "table,th,td { border:1px solid #9E9E9E; border-collapse: collapse  }";
   strOutput += "th { background: #FFC107; }";
+  strOutput += ".propertyname { font-weight:bold; font-color:blue; }";
   strOutput += "</STYLE>";
   return strOutput;
 }
@@ -162,10 +183,9 @@ function formatHTMLTableRows() {
     "No",
     "Link URL",
     "Link Text",
-    "Link Protocol",
-    "Internal/External",
-    "Status Code",
-    "Status Text"
+    "Internal or External",
+    "Link Attributes",
+    "Status Code & Status Text"
   );
   for (let i = 0; i < objCollection.length; i++) {
     let objItem = objCollection[i]; // get the object HTML collection item
@@ -177,10 +197,9 @@ function formatHTMLTableRows() {
       i + 1,
       objItem["href"],
       objItem["innerText"],
-      objItem["protocol"].replace(":", ""),
       objInternalExternalLink,
-      returnHTTPStatus(objItem["href"], objInternalExternalLink)[0],
-      returnHTTPStatus(objItem["href"], objInternalExternalLink)[1]
+      objItem["attributes"],
+      returnHTTPStatus(objItem["href"], objInternalExternalLink)
     );
   }
   strHTMLlines += "</TABLE>";

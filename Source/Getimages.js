@@ -1,3 +1,7 @@
+/*
+function listAttributes(arr)
+	Lists down attributes for the attributes property
+*/
 function listAttributes(arr) {
   let strOutput = "<DIV>";
   strOutput += "<UL>";
