@@ -173,7 +173,8 @@ function formatHTMLTableRows() {
   let pageH1 = "WLA Links Checker v01"; // H1 Header
   let pageNotes =
     "Only internal links have HTTP Status. It's not possible to obtain" +
-    " HTTP status for external links"; // Important notes to display
+    " HTTP status for external links. Please double-check broken links " + 
+    "or 4XX status by testing URL of specified link in browser "; // Important notes to display
   let objCollection = document.links; // define the DOM object as HTML Collections
   let pageHost = location.host; // define the host of the page
   let strHTMLlines = ""; // define the HTML line string
