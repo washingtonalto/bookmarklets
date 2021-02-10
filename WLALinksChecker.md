@@ -1,0 +1,20 @@
+### WLA Links Checker bookmarklet
+
+  * Usage 
+
+    To list down the links on the page and to check the HTTP status for internal links (it's not possible to check external links HTTP status using JavaScript). Be sure to double-check links with 4XX status by testing it in browser as links to downloads like pdfs may return 4XX when it's not. 
+    
+  * Code  
+
+    ```
+    javascript: function listAttributes(arr){let strOutput="<DIV>";strOutput+="<UL>";for(let i=0;i<arr.length;i++)strOutput+="<LI><SPAN class='propertyname'>"+arr[i].name+"</SPAN>: "+arr[i].value+"</LI>";return strOutput+="</UL></DIV>",strOutput}function returnHTTPStatus(url,strInternalExternal){let xmlHttp=new XMLHttpRequest,statusCode="",statusText="";if(xmlHttp.open("HEAD",url,!1),"Internal"==strInternalExternal){try{xmlHttp.send()}catch(e){console.log("Error: "+e)}xmlHttp.onload=function(){statusText=xmlHttp.statusText,statusCode=xmlHttp.status},xmlHttp.onload()}else statusText="External link status unknown",statusCode="0";return statusCode+": "+statusText}function checkInternalExternalLink(linkHost,pageHost){let strOutput;return strOutput=linkHost==pageHost?"Internal":"External",strOutput}function isValidHttpUrl(strTest){let url;try{url=new URL(strTest)}catch(_){return!1}return"http:"===url.protocol||"https:"===url.protocol}function formatHTMLcellvalues(strCellinput){let strOutput;return strOutput=isValidHttpUrl(strCellinput)?"<A HREF='"+strCellinput+"' target='_blank'>"+decodeURIComponent(strCellinput)+"</A>":"object"==typeof strCellinput?listAttributes(strCellinput):null==strCellinput||0==String(strCellinput).trim().length?"":String(strCellinput).trim(),strOutput}function setTableStyle(){let strOutput="<STYLE>";return strOutput+="table,th,td { border:1px solid #9E9E9E; border-collapse: collapse  }",strOutput+="th { background: #FFC107; }",strOutput+=".propertyname { font-weight:bold; font-color:blue; }",strOutput+="</STYLE>",strOutput}function formatPageHeaders(strHeader,strNotes=""){let strOutput="<H1>"+strHeader+"</H1>";return strOutput+="<STRONG>Page URL: </STRONG>",strOutput+="<A href='"+location.href+"' target='_blank'>"+location.href+"</A><BR>",strOutput+="<STRONG>Page Title: </STRONG>",strOutput+=document.title+"<BR><BR>",strOutput+=""!=strNotes?"<STRONG>NOTE: </STRONG>"+strNotes+"<BR><BR>":"",strOutput}function formatHTMLTableHeaders(){let strOutput="<TABLE>";strOutput+="<TR>";for(let i=0;i<arguments.length;i++)strOutput+="<TH>"+arguments[i]+"</TH>";return strOutput+="</TR>",strOutput}function formatHTMLTableRows(){let strOutput="<TR>";for(let i=0;i<arguments.length;i++)strOutput+="<TD>"+formatHTMLcellvalues(arguments[i])+"</TD>";return strOutput+="</TR>",strOutput}!function(){alert("WARNING: the process might take minutes. Please click ok button and wait for tab with link information to open!");let pageH1="WLA Links Checker v01",pageNotes="Only internal links have HTTP Status. It's not possible to obtain HTTP status for external links. Please double-check broken links or 4XX status by testing URL of specified link in browser ",objCollection=document.links,pageHost=location.host,strHTMLlines="";strHTMLlines+=setTableStyle(),strHTMLlines+=formatPageHeaders(pageH1,pageNotes),strHTMLlines+=formatHTMLTableHeaders("No","Link URL","Link Text","Internal or External","Link Attributes","Status Code & Status Text");for(let i=0;i<objCollection.length;i++){let objItem=objCollection[i],objInternalExternalLink=checkInternalExternalLink(objItem.host,pageHost);strHTMLlines+=formatHTMLTableRows(i+1,objItem.href,objItem.innerText,objInternalExternalLink,objItem.attributes,returnHTTPStatus(objItem.href,objInternalExternalLink))}strHTMLlines+="</TABLE>",strHTMLlines+="<BR><BR><DIV style='text-align: center;'><CITE>Coded by Washington Alto</CITE></DIV>";let myWin=window.open();myWin.document.writeln(strHTMLlines),myWin.document.close()}();
+    ```
+  * Screenshot  
+
+    ![image of Wikipedia page](screenshots/Wikipedia.png)
+      
+    <p align=center>Image of Wikipedia page</p>
+
+    ![image of WLA Link Checker result](screenshots/WLALinkCheckerOutput.png)
+
+    <p align=center>Image of Wikipedia WLA Link Checker result</p>
