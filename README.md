@@ -32,6 +32,19 @@ Here are some of the JavaScript codes that I've created.
 * [WLA Basic Page Info Checker](WLABasicPageInfoChecker.md) - Displays basic page information like H1 to H6, Meta tags and HTTP Response Header (without needing to use Chrome's developer tool for this)
 * [WLA Tealium Checker Checker](WLATealiumChecker.md) - Displays relevant Tealium object value-pairs in user-friendly format for purpose of auditing page load Tealium values 
 
+## Copy and Pasting from table to Excel
+
+One advantage of table in a page is that when one copies and paste them to pages, they are instantaneously converted to appropriate cells in Excel (or spreadsheet table). One can then select all (via ctrl-A), copy and paste from some output of these bookmarklets to Excel as shown in screenshots below.
+
+![image of copied page](screenshots/CopyfromTable.png)
+      
+<p align=center>Image of copied page</p>
+
+![image of pasted result](screenshots/PasteToExcel.png)
+
+<p align=center>Image of pasted table in Excel</p>
+
+
 ## Note
 
 If you like the tool, please spread the news and tell others of this [link](https://github.com/washingtonalto/bookmarklets). As an open-source tool (see [license](LICENSE)), there is no warranty for this. 
