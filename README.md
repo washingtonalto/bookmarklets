@@ -31,6 +31,8 @@ Here are some of the JavaScript codes that I've created.
 * [WLA Image Checker](WLAImagesChecker.md) - Lists down all images in page and displays images path with corresponding image, width and height dimensions of images and image attributes
 * [WLA Basic Page Info Checker](WLABasicPageInfoChecker.md) - Displays basic page information like H1 to H6, Meta tags and HTTP Response Header (without needing to use Chrome's developer tool for this)
 * [WLA Tealium Checker Checker](WLATealiumChecker.md) - Displays relevant Tealium object value-pairs in user-friendly format for purpose of auditing page load Tealium values 
+* [WLA CSS Selector Web Scraper](WLACSSSelectorWebScraper.md) - Performs simple web scraping from page using CSS selectors
+* [WLA XPath Web Scraper](WLAXPathWebScraper.md) - Performs simple web scraping from page using XPath
 
 ## Copy and Pasting from table to Excel
 

@@ -94,7 +94,7 @@ strHTMLlines += recursiveObjformat(utag.send);
 strHTMLlines += "<H2>utag.sender</H2>";
 strHTMLlines += recursiveObjformat(utag.sender); 
 
-strHTMLlines += "<BR><BR><DIV style='text-align: center;'><CITE>Coded by Washington Alto</CITE></DIV>";
+strHTMLlines += "<BR><BR><DIV style='text-align: center;'><CITE>Copyright: (c) 2021, Washington Alto</CITE></DIV>";
 
 // Open a new tab or window in browser and display the concatenated strings strHTMLlines
 var myWin = window.open();
