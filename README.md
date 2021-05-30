@@ -33,6 +33,7 @@ Here are some of the JavaScript codes that I've created.
 * [WLA Tealium Checker Checker](WLATealiumChecker.md) - Displays relevant Tealium object value-pairs in user-friendly format for purpose of auditing page load Tealium values 
 * [WLA CSS Selector Web Scraper](WLACSSSelectorWebScraper.md) - Performs simple web scraping from page using CSS selectors
 * [WLA XPath Web Scraper](WLAXPathWebScraper.md) - Performs simple web scraping from page using XPath
+* [WLA Cookie Extractor](WLACookieExtractor.md) - Extracts first-party cookie from the page
 
 ## Copy and Pasting from table to Excel
 
