@@ -81,7 +81,7 @@ function recursiveObjformat(obj) {
 }
 
 (function () {
-  let pageH1 = "WLA Tealium Checker v02"; // H1 Header
+  let pageH1 = "WLA Tealium Checker v01"; // H1 Header
   let pageNotes = ""; // Important notes to display
   let pageHost = location.host; // define the host of the page
   let strHTMLlines = ""; // define the HTML line string
@@ -102,19 +102,6 @@ function recursiveObjformat(obj) {
 
   strHTMLlines += "<H2>utag.sender</H2>";
   strHTMLlines += recursiveObjformat(utag.sender);
-
-  if (utag.gdpr) {  
-    if (utag.gdpr.consent_prompt) {
-      strHTMLlines += "<H2>utag.gdpr.consent_prompt</H2>";
-      strHTMLlines += recursiveObjformat(utag.gdpr.consent_prompt);
-    }
-    if (utag.gdpr.preferences_prompt) {
-      strHTMLlines += "<H2>utag.gdpr.preferences_prompt</H2>";
-      strHTMLlines += recursiveObjformat(utag.gdpr.preferences_prompt);
-    }
-    strHTMLlines += "<H2>utag.gdpr.values</H2>";
-    strHTMLlines += recursiveObjformat(utag.gdpr.values);
-  } 
 
   strHTMLlines +=
     "<BR><BR><DIV style='text-align: center;'><CITE>Copyright: (c) 2021, Washington Alto</CITE></DIV>";
