@@ -35,6 +35,7 @@ Here are some of the JavaScript codes that I've created.
 * [WLA XPath Web Scraper](WLAXPathWebScraper.md) - Performs simple web scraping from page using XPath
 * [WLA Cookie Extractor](WLACookieExtractor.md) - Extracts first-party cookie from the page
 * [WLA HTTP Resource Extractor](WLAHTTPResourceExtractor.md) - Extracts first-party cookie from the page
+* [WLA CSS Selector Tool](WLACSSSelectorTool.md) - Displays the CSS Selector of an HTML Element from the page
 
 ## Copy and Pasting from table to Excel
 
