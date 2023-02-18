@@ -36,6 +36,7 @@ Here are some of the JavaScript codes that I've created.
 * [WLA Cookie Extractor](WLACookieExtractor.md) - Extracts first-party cookie from the page
 * [WLA HTTP Resource Extractor](WLAHTTPResourceExtractor.md) - Extracts first-party cookie from the page
 * [WLA CSS Selector Tool](WLACSSSelectorTool.md) - Displays the CSS Selector of an HTML Element from the page
+* [WLA Broken Links Checker](WLABrokenLinksChecker.md) - Lists down all links in page and displays their link text and attributes. In addition, it also displays HTTP status only for internal links at the end of the table. 
 
 ## Copy and Pasting from table to Excel
 

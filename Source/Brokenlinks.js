@@ -18,31 +18,40 @@ function listAttributes(arr) {
 }
 
 /*
-function returnHTTPStatus(url,strInternalExternal)
-	Returns HTTP Status and Status text only for "Internal" links only
-	Note that returnHTTPStatus(url,strInternalExternal) returns <status code>: <status text>
+function returnHTTPStatus(urlDict)
+	Returns HTTP Status only for "Internal" links only
 */
-function returnHTTPStatus(url, strInternalExternal) {
-  let xmlHttp = new XMLHttpRequest();
-  let statusCode = "",
-    statusText = "";
-  xmlHttp.open("HEAD", url, false);
-  if (strInternalExternal == "Internal") {
-    try {
-      xmlHttp.send();
-    } catch (e) {
-      console.log("Error: " + e);
-    }
+function returnHTTPStatus(urlDict) {
+	
+	statusCodeDict = {'100':'Continue','101':'Switching Protocols','102':'Processing (WebDAV)','103':'Early Hints Experimental','200':'OK','201':'Created',
+	'202':'Accepted','203':'Non-Authoritative Information','204':'No Content','205':'Reset Content','206':'Partial Content','207':'Multi-Status (WebDAV)',
+	'208':'Already Reported (WebDAV)','226':'IM Used (HTTP Delta encoding)','300':'Multiple Choices','301':'Moved Permanently','302':'Found','303':'See Other',
+	'304':'Not Modified','305':'Use Proxy Deprecated','306':'unused','307':'Temporary Redirect','308':'Permanent Redirect','400':'Bad Request','401':'Unauthorized',
+	'402':'Payment Required Experimental','403':'Forbidden','404':'Not Found','405':'Method Not Allowed','406':'Not Acceptable','407':'Proxy Authentication Required',
+	'408':'Request Timeout','409':'Conflict','410':'Gone','411':'Length Required','412':'Precondition Failed','413':'Payload Too Large','414':'URI Too Long',
+	'415':'Unsupported Media Type','416':'Range Not Satisfiable','417':'Expectation Failed','421':'Misdirected Request','422':'Unprocessable Entity (WebDAV)',
+	'423':'Locked (WebDAV)','424':'Failed Dependency (WebDAV)','425':'Too Early Experimental','426':'Upgrade Required','428':'Precondition Required',
+	'429':'Too Many Requests','431':'Request Header Fields Too Large','451':'Unavailable For Legal Reasons','500':'Internal Server Error','501':'Not Implemented',
+	'502':'Bad Gateway','503':'Service Unavailable','504':'Gateway Timeout','505':'HTTP Version Not Supported','506':'Variant Also Negotiates',
+	'507':'Insufficient Storage (WebDAV)','508':'Loop Detected (WebDAV)','510':'Not Extended','511':'Network Authentication Required'};
+	url = String(urlDict['internalLink']);
+	linkText = String(urlDict['internalLinkText']);
+    let xmlHttp = new XMLHttpRequest();
+	let statusCode = 0;
+    xmlHttp.open("HEAD", url, false);
+	try { 
+    	xmlHttp.send();
+	} catch (e) {
+		console.log("Error: "+e)
+	}
     xmlHttp.onload = function () {
-      statusText = xmlHttp.statusText;
-      statusCode = xmlHttp.status;
-    };
+        statusCode = xmlHttp.status;
+		statusText = statusCodeDict[String(statusCode)];
+	}
     xmlHttp.onload();
-  } else {
-    statusText = "External link status unknown";
-    statusCode = "0";
-  }
-  return statusCode + (statusText?': ':'') + statusText;
+	statusDesc = formatHTMLcellvalues(url) + (linkText? ' ('+linkText+')':'') + ' - HTTP Status: ' + (statusCode != 200 ? "<span style='color:red'>"+statusCode+"</span>":statusCode) + (statusText?': ':'') + statusText;
+	return  {statusCode:statusCode,statusDesc:statusDesc}
+	
 }
 
 /*
@@ -164,18 +173,13 @@ function formatHTMLTableRows() {
 }
 
 (function () {
-  // alert user to wait till tab is open
-  alert(
-    "WARNING: the process might take minutes. Please click ok button and wait " +
-      "for tab with link information to open!"
-  );
 
-  let pageH1 = "WLA Links Checker v01"; // H1 Header
+  let pageH1 = "WLA Broken Links Checker v01"; // H1 Header
   let pageNotes =
     "Only internal links have HTTP Status. It's not possible to obtain" +
     " HTTP status for external links. Please double-check broken links " + 
     "or 4XX status by testing URL of specified link in browser "; // Important notes to display
-  let objCollection = document.links; // define the DOM object as HTML Collections
+  const objCollection = document.links; // define the DOM object as HTML Collections
   let pageHost = location.host; // define the host of the page
   let strHTMLlines = ""; // define the HTML line string
   strHTMLlines += setTableStyle();
@@ -185,9 +189,9 @@ function formatHTMLTableRows() {
     "Link URL",
     "Link Text",
     "Internal or External",
-    "Link Attributes",
-    "Status Code & Status Text"
+    "Link Attributes"
   );
+  listofInternalLinks = [];
   for (let i = 0; i < objCollection.length; i++) {
     let objItem = objCollection[i]; // get the object HTML collection item
     let objInternalExternalLink = checkInternalExternalLink(
@@ -199,11 +203,33 @@ function formatHTMLTableRows() {
       objItem["href"],
       objItem["innerText"],
       objInternalExternalLink,
-      objItem["attributes"],
-      returnHTTPStatus(objItem["href"], objInternalExternalLink)
+      objItem["attributes"]
     );
+	if (objInternalExternalLink == "Internal") {
+		// stores the internal link both the URL as well as the link text as dictionary and push it to list listofInternalLinks
+		listofInternalLinks.push({internalLink:objItem["href"],
+								  internalLinkText:objItem["innerText"]})
+	};
   }
   strHTMLlines += "</TABLE>";
+  
+  numBrokenLinks = 0;
+  numLinks = 0;
+  strHTMLlines += "<BR><BR>Internal Links and corresponding HTTP Status<BR>";
+  strHTMLlines += "<OL>";
+  listofInternalLinks.sort();
+  for (let i = 0; i < listofInternalLinks.length; i++) {
+	  let internalLinks = listofInternalLinks[i]; // get the object HTML collection item
+	  statusDesc = returnHTTPStatus(internalLinks)['statusDesc']
+	  statusCode = returnHTTPStatus(internalLinks)['statusCode']
+	  strHTMLlines += "<LI>"+ statusDesc + "</LI>";
+	  if (statusCode != 200) {
+	  	  numBrokenLinks += 1;
+	  }
+	  numLinks += 1;
+  }
+  strHTMLlines += "</OL>";
+  strHTMLlines += "<BR>The number of broken links (internal) is " + numBrokenLinks + " out of " + numLinks + " internal links."
   strHTMLlines +=
     "<BR><BR><DIV style='text-align: center;'><CITE>Copyright: (c) 2021, Washington Alto</CITE></DIV>";
 
