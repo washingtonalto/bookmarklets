@@ -139,32 +139,6 @@ function formatHTMLTableRows() {
   return strOutput;
 }
 
-/*
-function formatHTMLCollobjtoCSVBlob(objInput)
-	Gets the HTML Collection object and returns them as one-field raw CSV 
-*/
-function formatHTMLCollobjtoCSV(objInput) {
-	if (typeof objInput === "object") {
-		listofTextContent = [];
-		objInput.forEach((item)=>{listofTextContent.push('"'+item.innerText.trim()+'"')});
-		let csvData = listofTextContent.join('\n');
-		return csvData
-	}
-	return null
-}
-
-/*
-function createCSVBloblink (objCSV,csvFileName)
-	Formats the A href link for the objCSV so it can be downloadable 
-*/
-function createCSVBloblink (objCSV,csvFileName){
-	let linkText = 'Download Extracted innerText in CSV';
-	let objCSVBlob = new Blob([objCSV], { type: 'text/csv' });
-	let csvURL = window.URL.createObjectURL(objCSVBlob);
-	let HTMLlink = '<A href="'+csvURL+'" download="'+csvFileName+'">'+linkText+'</A>';
-	return HTMLlink;
-}
-
 (function () {
   const cssSelectorwebscrape = prompt(
     "Enter CSS selector for web scraping (default:A): ",
@@ -193,10 +167,6 @@ function createCSVBloblink (objCSV,csvFileName){
     );
   }
   strHTMLlines += "</TABLE>";
-  strHTMLlines += "<BR>";
-  let csvData = formatHTMLCollobjtoCSV(objCollection);
-  let HTMLlink = createCSVBloblink (csvData,'CSS_Extraction_list');
-  strHTMLlines += HTMLlink;
   strHTMLlines +=
     "<BR><BR><DIV style='text-align: center;'><CITE>Copyright: (c) 2021, Washington Alto</CITE></DIV>";
 
