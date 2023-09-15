@@ -2,7 +2,7 @@
 
   * Usage 
 
-    To list down results of web scrape XPath query in tabular form. The result includes only extracted text.
+    To list down results of web scrape XPath query in tabular form. The result includes only extracted text and the outerHTML. One can also download result to CSV.
     
   * Code  
 
