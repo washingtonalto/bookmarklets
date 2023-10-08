@@ -38,6 +38,7 @@ Here are some of the JavaScript codes that I've created.
 * [WLA CSS Selector Tool](WLACSSSelectorTool.md) - Displays the CSS Selector of an HTML Element from the page
 * [WLA CSS Selector ver 2 Tool](WLACSSSelectorToolv2.md) - Displays the CSS Selector of an HTML Element from the page
 * [WLA Broken Links Checker](WLABrokenLinksChecker.md) - Lists down all links in page and displays their link text and attributes. In addition, it also displays HTTP status only for internal links at the end of the table. 
+* [WLA Object to JSON scraper](WLAObjecttoJSONscraper.md) - To list down the properties of user-selected object with the option for user to download as JSON file
 
 ## Copy and Pasting from table to Excel
 
