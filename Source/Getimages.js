@@ -38,7 +38,7 @@ function isValidImage(strTest)
 	Check if string strTest is a valid image string and if it is, return true otherwise, return false
 */
 function isValidImage(strTest) {
-  let re = new RegExp("(?:.svg|.jpg|.jpeg|.gif|.png)$");
+  let re = new RegExp("(?:.svg|.jpg|.jpeg|.gif|.png)");
 
   return re.test(strTest);
 }
