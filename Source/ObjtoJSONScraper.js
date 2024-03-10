@@ -232,7 +232,7 @@ function validate_object(objString) {
 
 (function () {
 
-  const objtoscrape = prompt(
+  var objtoscrape = prompt(
     "Enter object to scrape (default:document.location): ",
     "document.location"
   );

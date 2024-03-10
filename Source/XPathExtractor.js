@@ -398,7 +398,7 @@ class PageProperty {
 /* ===================== End of Class PageProperty ===================== */
 
 function convertXPathObj_to_listofObjArr(objXPathCollection) {
-  const nodes = [];
+  var nodes = [];
   let node = objXPathCollection.iterateNext();
   while (node) {
     nodes.push(node);
@@ -408,7 +408,7 @@ function convertXPathObj_to_listofObjArr(objXPathCollection) {
 }
 
 (function () {
-  const xPathwebscrape = prompt(
+  var xPathwebscrape = prompt(
     "Enter XPath expression for web scraping (default://A): ",
     "//A"
   );

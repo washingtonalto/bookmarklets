@@ -399,7 +399,7 @@ class PageProperty {
 
 
 (function () {
-  const cssSelectorwebscrape = prompt(
+  var cssSelectorwebscrape = prompt(
     "Enter CSS selector for web scraping (default:A): ",
     "A"
   );
